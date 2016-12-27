@@ -6,6 +6,7 @@ filetype plugin indent on
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
+set fileformats=unix,dos,mac
 set bomb
 set binary
 set ttyfast
@@ -16,32 +17,31 @@ set expandtab
 set smarttab
 set shiftwidth=4
 set tabstop=4
-set ai
-set si
+set autoindent
+set smartindent
 
 "" Searching
 set hlsearch
 set incsearch
-set ignorecase
 set smartcase
+set ignorecase
 
-"" Directories for swp files
+"" Swap/Backup
 set nobackup
 set noswapfile
 
 "" Misc
 set shell=/bin/zsh
-set fileformats=unix,dos,mac
-set wildmenu
 set showcmd
-set lazyredraw
 
 "" VISUAL SETTINGS
 
 syntax enable
 set ruler
 set number
+set wildmenu
 set cursorline
+set lazyredraw
 
 "" Folding
 nnoremap <space> za

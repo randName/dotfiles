@@ -49,7 +49,7 @@ ZSH_CUSTOM=$HOME/.zsh
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(colors gitfast tmux)
+plugins=(gitfast tmux)
 
 # for machine-local configuration
 [ -f $HOME/.zshlocal ] && source $HOME/.zshlocal
