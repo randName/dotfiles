@@ -26,6 +26,14 @@ set incsearch
 set smartcase
 set ignorecase
 
+"" Splits
+set splitbelow
+set splitright
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 "" Swap/Backup
 set nobackup
 set noswapfile
@@ -59,6 +67,8 @@ if $TERM == 'xterm'
     set term=xterm-256color
     set t_Co=256
 endif
+
+"" PLUGINS
 
 colorscheme solarized
 set background=dark
