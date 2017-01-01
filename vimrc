@@ -40,6 +40,7 @@ set noswapfile
 
 "" Misc
 set shell=/bin/zsh
+set noshowmode
 set showcmd
 
 "" VISUAL SETTINGS

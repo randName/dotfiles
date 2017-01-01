@@ -13,18 +13,20 @@ function! StatusLine()
     let sl .= PlSep(1,showsec?2:9,0)
     if ( showsec )
         let sl .= GitInfo()
+        let sl .= '%<%F'
         let sl .= PlSep(3,9,0)
+    else
+        let sl .= '%<%F'
     endif
-    let sl .= '[%n] '
-    let sl .= '%<%F'
-    let sl .= ReadOnly().' %m %w'
+    let sl .= ReadOnly().'%m %w'
     let sl .= '%='
+    let sl .= '[%n]'
     if ( showsec )
         let sl .= PlSep(3,2,1)
-        let sl .= join([(&fenc!=''?&fenc:&enc), &ff, FileSize()], isep)
+        let sl .= join([&ff, (&fenc!=''?&fenc:&enc), FileSize()], isep)
     endif
     let sl .= PlSep(1,0,1)
-    let sl .= '%3p%%  %l'.isep.'%c '
+    let sl .= join(['%3p%%', ' %l', '%c '], isep)
     return sl
 endfunction
 
@@ -41,7 +43,11 @@ endfunction
 
 function! GitInfo()
     let gitbr = $vcs_info_msg_0_
-    return ''.gitbr
+    if ( gitbr == '')
+        return ''
+    else
+        return ''.gitbr.'  '
+    endif
 endfunction
 
 hi User2 ctermbg=10 ctermfg=7
