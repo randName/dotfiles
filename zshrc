@@ -57,7 +57,8 @@ plugins=(gitfast tmux)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-export LANG=en_SG.UTF-8
+export LANG='en_SG.utf8'
+export LESSCHARSET='utf-8'
 
 export EDITOR='vim'
 bindkey -v
