@@ -58,6 +58,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 export LANG='en_SG.utf8'
+export LC_ALL='en_SG.utf8'
 export LESSCHARSET='utf-8'
 
 export EDITOR='vim'
