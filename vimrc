@@ -71,6 +71,8 @@ endif
 
 "" PLUGINS
 
+autocmd Filetype htmldjango setlocal ts=2 sts=2 sw=2
+
 colorscheme solarized
 set background=dark
 let g:solarized_termtrans=1
