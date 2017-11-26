@@ -20,6 +20,10 @@ set tabstop=4
 set autoindent
 set smartindent
 
+"" Paste
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+
 "" Searching
 set hlsearch
 set incsearch
@@ -51,6 +55,7 @@ set number
 set wildmenu
 set cursorline
 set lazyredraw
+set relativenumber
 
 "" Folding
 nnoremap <space> za
