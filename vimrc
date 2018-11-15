@@ -79,6 +79,7 @@ endif
 colorscheme solarized
 set background=dark
 let g:solarized_termtrans=1
+let g:vue_disable_pre_processors=1
 
 set laststatus=2
 set statusline=\ %F%=Line:\ %4l/%4L\ \ Col:\ %3c
