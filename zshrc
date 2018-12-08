@@ -7,7 +7,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="refined"
+ZSH_THEME=""
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -56,10 +56,18 @@ plugins=(gitfast tmux)
 
 source $ZSH/oh-my-zsh.sh
 
+# add site-functions
+fpath=("$HOME/.zsh/functions" $fpath)
+
+autoload -U ifttt
+autoload -U promptinit; promptinit
+prompt pure
+
 # User configuration
 export LANG='en_SG.utf8'
 export LC_ALL='en_SG.utf8'
 export LESSCHARSET='utf-8'
+export TZ='Asia/Singapore'
 
 export EDITOR='vim'
 bindkey -v
