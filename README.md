@@ -8,6 +8,6 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 ```
 2) Install `.dotfiles`
 ```shell
-git clone https://github.com/randName/dotfiles .dotfiles
+git clone --recursive https://github.com/randName/dotfiles .dotfiles
 cd .dotfiles && tools/install.sh
 ```
