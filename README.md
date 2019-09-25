@@ -11,3 +11,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 git clone --recursive https://github.com/randName/dotfiles .dotfiles
 cd .dotfiles && tools/install.sh
 ```
+
+### Terminal Settings (Fonts, Colours)
+The `vim` statusbar uses [Powerline fonts](https://github.com/powerline/fonts)
+
+To install [Solarized](https://github.com/altercation/solarized) Dark on the Windows 10 Console, run `tools/solarized-dark.reg`
