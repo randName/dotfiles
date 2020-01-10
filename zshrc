@@ -47,4 +47,12 @@ bindkey '^N' history-search-forward
 
 setopt AUTO_CD
 
+# stuff that needs to be near the end
+
+if [ -d $HOME/.pyenv ]; then
+    export PATH=$HOME/.pyenv/bin:$PATH
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+fi
+
 source $HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
