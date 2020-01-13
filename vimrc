@@ -1,34 +1,70 @@
 "" BASIC SETTINGS
 
 filetype plugin indent on
+syntax enable
 
-"" Encoding
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=euc-jp,utf-8
-set fileformats=unix,dos,mac
-set bomb
-set binary
+set shell=/usr/bin/zsh
+
+set nobackup
+set noswapfile
+
+set wildmenu
+
+"" Display
 set ttyfast
+set lazyredraw
+set cursorline
 
-"" Indentation
-set backspace=indent,eol,start
-set expandtab
-set smarttab
-set shiftwidth=4
-set tabstop=4
-set autoindent
-set smartindent
+set ruler
+set number
+set relativenumber
 
-"" Paste
-nnoremap <F2> :set invpaste paste?<CR>
-set pastetoggle=<F2>
+set showmatch
+set matchtime=2
 
-"" Searching
+set showcmd
+set noshowmode
+
+set laststatus=2
+set statusline=\ %F%=Line:\ %4l/%4L\ \ Col:\ %3c
+
+set t_Co=256
+set background=dark
+colorscheme solarized
+
+"" Search
 set hlsearch
 set incsearch
 set smartcase
 set ignorecase
+
+"" Folding
+nnoremap <space> za
+
+set foldenable
+set foldcolumn=1
+set foldmethod=indent
+set foldlevelstart=10
+
+""" Indentation & EOL
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set backspace=indent,eol,start
+
+set smarttab
+set autoindent
+set smartindent
+
+set noeol
+set nofixeol
+set fileformats=unix,dos,mac
+
+"" Encoding
+set bomb
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=euc-jp,utf-8
 
 "" Splits
 set splitbelow
@@ -38,48 +74,7 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-"" Swap/Backup
-set nobackup
-set noswapfile
-
-"" Misc
-set shell=/bin/zsh
-set noshowmode
-set showcmd
-
-"" VISUAL SETTINGS
-
-syntax enable
-set ruler
-set number
-set wildmenu
-set cursorline
-set lazyredraw
-set relativenumber
-
-"" Folding
-nnoremap <space> za
-set foldenable
-set foldcolumn=1
-set foldmethod=indent
-set foldlevelstart=10
-set foldnestmax=10
-
-"" Matching brackets
-set showmatch
-set mat=2
-
-if $TERM == 'xterm'
-    set term=xterm-256color
-    set t_Co=256
-endif
+"" Mappings
+nnoremap <leader>p :set invpaste paste?<CR>
 
 "" PLUGINS
-
-colorscheme solarized
-set background=dark
-let g:solarized_termtrans=1
-let g:vue_disable_pre_processors=1
-
-set laststatus=2
-set statusline=\ %F%=Line:\ %4l/%4L\ \ Col:\ %3c
