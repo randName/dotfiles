@@ -46,7 +46,7 @@ set foldcolumn=1
 set foldmethod=indent
 set foldlevelstart=10
 
-""" Indentation & EOL
+"" Indentation
 set expandtab
 set tabstop=4
 set shiftwidth=4
@@ -56,15 +56,13 @@ set smarttab
 set autoindent
 set smartindent
 
-set noeol
-set nofixeol
-set fileformats=unix,dos,mac
-
 "" Encoding
-set bomb
+set binary
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=euc-jp,utf-8
+
+set fileformats=unix,dos,mac
 
 "" Splits
 set splitbelow
