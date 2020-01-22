@@ -12,6 +12,26 @@ set lazyredraw
 set mouse=a
 set ttymouse=sgr
 " }}}
+" Encoding {{{
+set binary
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=euc-jp,utf-8
+" }}}
+" Whitespace {{{
+set fileformats=unix,dos,mac
+
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+
+set smarttab
+set expandtab
+set autoindent
+set smartindent
+
+set backspace=indent,eol,start
+" }}}
 " UI {{{
 set wildmenu
 set cursorline
@@ -26,7 +46,7 @@ set noshowmode
 set laststatus=2
 set statusline=\ %F%=Line:\ %4l/%4L\ \ Col:\ %3c
 " }}}
-" Syntax & Colouring {{{
+" Syntax & Colours {{{
 syntax enable
 filetype plugin indent on
 
@@ -50,25 +70,6 @@ set foldenable
 set foldcolumn=1
 set foldmethod=indent
 set foldlevelstart=10
-" }}}
-" Indentation {{{
-set expandtab
-set tabstop=4
-set shiftwidth=4
-
-set smarttab
-set autoindent
-set smartindent
-
-set backspace=indent,eol,start
-" }}}
-" Encoding {{{
-set binary
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=euc-jp,utf-8
-
-set fileformats=unix,dos,mac
 " }}}
 " Splits {{{
 set splitbelow
@@ -98,6 +99,8 @@ let g:netrw_alto=1
 let g:netrw_altv=1
 let g:netrw_winsize=20
 let g:netrw_browse_split=2
+
+let g:netrw_list_hide=netrw_gitignore#Hide() . '^\..*'
 " }}}
 " modeline {{{
 set modeline
