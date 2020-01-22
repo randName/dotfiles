@@ -1,5 +1,3 @@
-export PATH=$HOME/.local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -9,13 +7,13 @@ ZSH_THEME=""
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # custom folder (default: $ZSH/custom)
-ZSH_CUSTOM=$HOME/.zsh
+ZSH_CUSTOM=$HOME/.dotfiles/zsh
 
 # load plugins
 plugins=(git gitfast tmux)
 
 # load functions
-fpath=("$HOME/.zsh/functions" $fpath)
+fpath=("$ZSH_CUSTOM/functions" $fpath)
 
 # init oh-my-zsh
 source $ZSH/oh-my-zsh.sh
@@ -27,16 +25,12 @@ prompt pure
 # machine-local configuration
 [ -f $HOME/.zshlocal ] && source $HOME/.zshlocal
 
-# load ifttt if key exists
-[ -f $HOME/.ifttt ] && autoload -U ifttt
-
 # User configuration
 export LANG='en_SG.utf8'
 export LC_ALL='en_SG.utf8'
-export LESSCHARSET='utf-8'
+
 export TZ='Asia/Singapore'
 
-export EDITOR='vim'
 bindkey -v
 
 # vi style incremental search
@@ -55,4 +49,4 @@ if [ -d $HOME/.pyenv ]; then
     eval "$(pyenv virtualenv-init -)"
 fi
 
-source $HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

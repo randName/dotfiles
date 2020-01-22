@@ -1,0 +1,39 @@
+#command
+
+h	left-scroll
+j	forw-line-force
+k	back-line-force
+l	right-scroll
+
+\ku	back-scroll
+\kd	forw-scroll
+\kl	left-scroll
+\kr	right-scroll
+
+\kU	forw-screen
+\kD	back-screen
+
+g	goto-line
+G	goto-end
+
+/	forw-search
+n	repeat-search
+N	reverse-search
+
+-	toggle-option
+s	toggle-option o
+:n	toggle-option n
+
+=	status
+v	visual
+V	version
+?	help
+q	quit
+:q	quit
+
+#stop
+
+#env
+LESS = -inR
+LESSCHARSET = utf-8
+LESSHISTFILE = -

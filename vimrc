@@ -1,6 +1,9 @@
 " System {{{
 set shell=/usr/bin/zsh
 
+set runtimepath+=~/.dotfiles/vim
+set packpath+=~/.dotfiles/vim
+
 set path+=**
 set autoread
 set nobackup
