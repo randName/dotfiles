@@ -8,6 +8,9 @@ set directory=~/.local/vim,/var/tmp,/tmp
 
 set ttyfast
 set lazyredraw
+
+set mouse=a
+set ttymouse=sgr
 " }}}
 " UI {{{
 set wildmenu
