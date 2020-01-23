@@ -1,35 +1,33 @@
-function! DisplayPath(path)
-    return substitute(expand(a:path), $HOME, '~', '')
+function! s:Join(segments, direction)
+  return join(a:segments, (a:direction ? '  ' : '  '))
 endfunction
 
-function! Wide()
-    let width = winwidth(winnr())
-    if width < 80
-        return 0
+function! s:Sep(color, text, direction)
+  return ' %' . a:color . '*' . (a:direction ? '' : '') . '%' . a:text. '* '
+endfunction
+
+function! s:Wide()
+  let l:width = winwidth(winnr())
+  if l:width < 80
+    return 0
+  endif
+  return (l:width - 40) / 40
+endfunction
+
+function! s:FileSize()
+  let l:bytes = getfsize(expand('%:p'))
+  if l:bytes <= 0
+    return '0'
+  endif
+
+  if l:bytes >= 1024
+    let l:kb = l:bytes / 1024
+    if l:kb >= 1000
+      return (l:kb / 1000) . 'MB'
     endif
-    return (width > 120) ? 2 : 1
-endfunction
+  endif
 
-function! PlJoin(segments, direction)
-    return join(a:segments, (a:direction ? '  ' : '  '))
-endfunction
-
-function! PlSep(col, txt, dir)
-    return ' %'.a:col.'*'.(a:dir?'':'').'%'.a:txt.'* '
-endfunction
-
-function! ReadOnly()
-    if &readonly || !&modifiable
-        return ''
-    else
-        return &modified ? '+' : ''
-endfunction
-
-function! GitInfo()
-    let gitbr = $vcs_info_msg_0_
-    if ( gitbr == '')
-        return ''
-    endif
+  return exists('l:kb') ? (l:kb . 'KB') : (l:bytes. 'B')
 endfunction
 
 let s:modetext={
@@ -59,74 +57,77 @@ let s:modecolor={
 \}
 
 function! ModeColor()
-    let m = mode()
-    let slc = get(s:modecolor, m, 7)
+  let l:m = mode()
+  let l:c = get(s:modecolor, l:m, 7)
 
-    exec 'hi StatusLine ctermfg=' . slc
-    exec 'hi User1 ctermfg=' . slc
+  exec 'hi StatusLine ctermfg=' . l:c
+  exec 'hi User1 ctermfg=' . l:c
 
-    let m = get(s:modetext, m, '???')
-    return Wide() ? toupper(m) : m[0]
+  let l:m = get(s:modetext, l:m, '???')
+  return s:Wide() ? toupper(l:m) : l:m[0]
 endfunction
 
-function! FileSize()
-    let bytes = getfsize(expand('%:p'))
-    if (bytes >= 1024)
-        let kbytes = bytes / 1024
-    endif
-    if (exists('kbytes') && kbytes >= 1000)
-        let mbytes = kbytes / 1000
-    endif
+function! DisplayPath()
+  let l:path = substitute(expand('%:p:h'), $HOME, '~', '')
+  if s:Wide() < 2
+    return l:path
+  endif
+  return s:Join(split(l:path, '/'), 0)
+endfunction
 
-    if bytes <= 0
-        return '0'
-    endif
-
-    if (exists('mbytes'))
-        return mbytes . 'MB'
-    elseif (exists('kbytes'))
-        return kbytes . 'KB'
-    else
-        return bytes . 'B'
-    endif
+function! ReadOnly()
+  if &readonly || !&modifiable
+    return ''
+  endif
+  return &modified ? '+' : ''
 endfunction
 
 function! FileInfo()
-    let wide = Wide()
-    let filesize = FileSize()
-    if !wide
-        return filesize
-    endif
+  let l:wide = s:Wide()
+  if &filetype == 'netrw'
+    return l:wide ? 'netrw' : '☰'
+  endif
 
-    let info = [empty(&filetype) ? '?' : &filetype, filesize]
-    if wide > 1
-        let info = [&ff, empty(&fenc) ? &enc : &fenc] + info
-    endif
-    return PlJoin(info, 1)
+  let l:filesize = s:FileSize()
+  if !l:wide
+    return l:filesize
+  endif
+
+  let l:info = [empty(&filetype) ? '?' : &filetype, l:filesize]
+  if l:wide > 1
+    let l:info = [&ff, empty(&fenc) ? &enc : &fenc] + l:info
+  endif
+  return s:Join(l:info, 1)
 endfunction
 
-function! StatusLine(netrw)
-    let sl = " %{ModeColor()}" . PlSep(1, 2, 0)
-    let sl .= "%<%.30{DisplayPath('%:p:h')}" . PlSep(3, 9, 0)
+function! StatusLine(normal)
+  let l:pos = ['%2p%% ']
+  let l:spacer = "%="
 
-    if a:netrw
-        let sl .= "%=" . PlSep(3, 2, 1)
-        let sl .= "%{Wide() ? 'netrw' : '☰'}"
-        let sl .= PlSep(1, 0, 1) . "%2p%% "
-    else
-        let sl .= "%t%=%{ReadOnly()}" . PlSep(3, 2, 1)
-        let sl .= "%{FileInfo()}"
-        let sl .= PlSep(1, 0, 1) . PlJoin(['%2p%%', '%2c '], 1)
-    endif
-    return sl
+  if a:normal
+    let l:pos = ['%2c'] + l:pos
+    let l:spacer = "%t %{ReadOnly()}" . l:spacer
+  endif
+
+  let l:sl = " %{ModeColor()}"
+  let l:sl .= s:Sep(1, 2, 0) . "%<%{DisplayPath()}"
+  let l:sl .= s:Sep(3, 9, 0) . l:spacer
+  let l:sl .= s:Sep(3, 2, 1) . "%{FileInfo()}"
+  let l:sl .= s:Sep(1, 0, 1) . s:Join(l:pos, 1)
+  return l:sl
 endfunction
 
 function! s:SetStatusLine()
-    if &filetype == 'netrw'
-        setlocal statusline=%!StatusLine(1)
-    else
-        setlocal statusline=%!StatusLine(0)
-    endif
+  if &filetype == 'netrw'
+    setlocal statusline=%!StatusLine(0)
+    return
+  endif
+
+  if exists('b:statusline')
+    return
+  endif
+  setlocal statusline=%!StatusLine(1)
+  let b:statusline=1
 endfunction
 
 hi User1 ctermbg=10
@@ -134,6 +135,6 @@ hi User2 ctermbg=10 ctermfg=7
 hi User3 ctermfg=10
 
 augroup statusline
-    autocmd!
-    autocmd BufAdd,BufEnter * call s:SetStatusLine()
+  autocmd!
+  autocmd BufAdd,BufEnter * call s:SetStatusLine()
 augroup END

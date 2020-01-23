@@ -2,10 +2,8 @@
 " Language:  OpenSCAD
 " Version:   v2019.05
 
-if version < 600
-    syntax clear
-elseif exists("b:current_syntax")
-    finish
+if exists("b:current_syntax")
+  finish
 endif
 
 "syn keyword openscadFunctionDef function

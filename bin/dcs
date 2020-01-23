@@ -1,18 +1,18 @@
 #!/bin/sh
 
 if [ $# -gt 0 ]; then
-	command="$@"
+  command="$@"
 else
-	read command
+  read command
 fi
 
 sequence="$(printf '\033]%s\a' "$command")"
 
 case ${TERM-} in
-	screen*)
-		printf '\033Ptmux;\033%s\033\\' "$sequence"
-		;;
-	*)
-		echo -n "$sequence"
-		;;
+  screen*)
+    printf '\033Ptmux;\033%s\033\\' "$sequence"
+    ;;
+  *)
+    echo -n "$sequence"
+    ;;
 esac

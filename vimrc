@@ -28,20 +28,23 @@ set fileencodings=euc-jp,utf-8
 " Whitespace {{{
 set fileformats=unix,dos,mac
 
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 
 set smarttab
 set expandtab
 set autoindent
-set smartindent
 
 set backspace=indent,eol,start
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+,eol:$
 " }}}
 " UI {{{
 set wildmenu
 set cursorline
+
+set scrolloff=1
+set sidescrolloff=5
 
 set ruler
 set number
@@ -49,6 +52,7 @@ set relativenumber
 
 set showcmd
 set noshowmode
+set display+=lastline
 
 set laststatus=2
 set statusline=\ %F%=Line:\ %4l/%4L\ \ Col:\ %3c
@@ -83,23 +87,23 @@ set splitbelow
 set splitright
 
 function! TmuxResize(direction)
-    let l:direction = ['h', 'j', 'k', 'l']
+  let l:direction = ['h', 'j', 'k', 'l']
 
-    let l:amount = 5
-    let l:resize = 'resize '
-    if a:direction == 0 || a:direction == 3
-        let l:amount = 10
-        let l:resize = 'vertical ' . l:resize
-    endif
+  let l:amount = 5
+  let l:resize = 'resize '
+  if a:direction == 0 || a:direction == 3
+    let l:amount = 10
+    let l:resize = 'vertical ' . l:resize
+  endif
 
-    let l:cw = winnr()
-    exec 'wincmd ' . l:direction[a:direction]
-    if winnr() == l:cw
-        exec l:resize . '-' . l:amount
-    else
-        wincmd p
-        exec l:resize . '+' . l:amount
-    endif
+  let l:cw = winnr()
+  exec 'wincmd ' . l:direction[a:direction]
+  if winnr() == l:cw
+    exec l:resize . '-' . l:amount
+  else
+    wincmd p
+    exec l:resize . '+' . l:amount
+  endif
 endfunction
 
 nnoremap a<left>  <C-w>h
@@ -115,15 +119,20 @@ nnoremap <silent> ar<right> :call TmuxResize(3)<CR>
 " Mappings {{{
 nnoremap j gj
 nnoremap k gk
+
+nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+
+" send yanked stuff to clipboard with OSC52
+nnoremap <C-c> :exec "!printf ".shellescape(system('osc52', @0))<CR><CR>
 " }}}
 " Leader Shortcuts {{{
 let mapleader=","
 
-nnoremap <leader><space> :noh<CR>
 nnoremap <leader>p :set invpaste paste?<CR>
 " }}}
 " plugins {{{
 let g:netrw_liststyle=3
+let g:vue_pre_processors=[]
 " }}}
 " modeline {{{
 set modeline

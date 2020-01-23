@@ -1,25 +1,25 @@
 #!/bin/sh
 
 if [ ! -f ~/.ifttt ]; then
-	echo 'Error! Please add your IFTTT Webhooks Token to ~/.ifttt'
-	exit 1
+  echo 'Error! Please add your IFTTT Webhooks Token to ~/.ifttt'
+  exit 1
 fi
 
 API="https://maker.ifttt.com/trigger/script/with/key/$(cat ~/.ifttt)"
 
 _json () {
-	local a=$1
-	local b=$2
-	shift 2
-	cat <<-EOF
-		{"value1":"$a","value2":"$b","value3":"$@"}
-	EOF
+  local a=$1
+  local b=$2
+  shift 2
+  cat <<-EOF
+    {"value1":"$a","value2":"$b","value3":"$@"}
+  EOF
 }
 
 if [ $# -eq 3 ]; then
-	data="$( _json "$@" )"
+  data="$( _json "$@" )"
 else
-	data="$( _json "$(hostname)" "$(pwd)" "$@" )"
+  data="$( _json "$(hostname)" "$(pwd)" "$@" )"
 fi
 
 curl -s -H 'Content-Type: application/json' -o /dev/null -d "$data" "$API"
