@@ -1,33 +1,17 @@
-set statusline=%!StatusLine()
+function! DisplayPath(path)
+    return substitute(expand(a:path), $HOME, '~', '')
+endfunction
 
-function! StatusLine()
-    let sl=' '
-    let isep='  '
-    let showsec = (winwidth(0) > 80)?1:0
-    exe 'hi User1 ctermbg='.(showsec?10:0)
-    let m = ModeColor()
-    if ( !showsec )
-        let m = m[0]
+function! Wide()
+    let width = winwidth(winnr())
+    if width < 80
+        return 0
     endif
-    let sl .= m
-    let sl .= PlSep(1,showsec?2:9,0)
-    if ( showsec )
-        let sl .= GitInfo()
-        let sl .= '%<%F'
-        let sl .= PlSep(3,9,0)
-    else
-        let sl .= '%<%F'
-    endif
-    let sl .= ReadOnly().'%m %w'
-    let sl .= '%='
-    let sl .= '[%n]'
-    if ( showsec )
-        let sl .= PlSep(3,2,1)
-        let sl .= join([&ff, (&fenc!=''?&fenc:&enc), FileSize()], isep)
-    endif
-    let sl .= PlSep(1,0,1)
-    let sl .= join(['%3p%%', ' %l', '%c '], isep)
-    return sl
+    return (width > 120) ? 2 : 1
+endfunction
+
+function! PlJoin(segments, direction)
+    return join(a:segments, (a:direction ? '  ' : '  '))
 endfunction
 
 function! PlSep(col, txt, dir)
@@ -38,22 +22,17 @@ function! ReadOnly()
     if &readonly || !&modifiable
         return ''
     else
-        return ''
+        return &modified ? '+' : ''
 endfunction
 
 function! GitInfo()
     let gitbr = $vcs_info_msg_0_
     if ( gitbr == '')
         return ''
-    else
-        return ''.gitbr.'  '
     endif
 endfunction
 
-hi User2 ctermbg=10 ctermfg=7
-hi User3 ctermfg=10
-
-let g:modetext={
+let s:modetext={
     \ '!' : 'Shell',
     \ 'c' : 'Command',
     \ 'n' : 'Normal',
@@ -66,7 +45,7 @@ let g:modetext={
     \ '': 'V·Block',
 \}
 
-let g:modecolor={
+let s:modecolor={
     \ '!' : 1,
     \ 'c' : 1,
     \ 'n' : 4,
@@ -81,10 +60,13 @@ let g:modecolor={
 
 function! ModeColor()
     let m = mode()
-    let slc = get(g:modecolor, m, 7)
-    exe 'hi StatusLine ctermfg='.slc
-    exe 'hi User1 ctermfg='.slc
-    return toupper(get(g:modetext, m, '???'))
+    let slc = get(s:modecolor, m, 7)
+
+    exec 'hi StatusLine ctermfg=' . slc
+    exec 'hi User1 ctermfg=' . slc
+
+    let m = get(s:modetext, m, '???')
+    return Wide() ? toupper(m) : m[0]
 endfunction
 
 function! FileSize()
@@ -108,3 +90,50 @@ function! FileSize()
         return bytes . 'B'
     endif
 endfunction
+
+function! FileInfo()
+    let wide = Wide()
+    let filesize = FileSize()
+    if !wide
+        return filesize
+    endif
+
+    let info = [empty(&filetype) ? '?' : &filetype, filesize]
+    if wide > 1
+        let info = [&ff, empty(&fenc) ? &enc : &fenc] + info
+    endif
+    return PlJoin(info, 1)
+endfunction
+
+function! StatusLine(netrw)
+    let sl = " %{ModeColor()}" . PlSep(1, 2, 0)
+    let sl .= "%<%.30{DisplayPath('%:p:h')}" . PlSep(3, 9, 0)
+
+    if a:netrw
+        let sl .= "%=" . PlSep(3, 2, 1)
+        let sl .= "%{Wide() ? 'netrw' : '☰'}"
+        let sl .= PlSep(1, 0, 1) . "%2p%% "
+    else
+        let sl .= "%t%=%{ReadOnly()}" . PlSep(3, 2, 1)
+        let sl .= "%{FileInfo()}"
+        let sl .= PlSep(1, 0, 1) . PlJoin(['%2p%%', '%2c '], 1)
+    endif
+    return sl
+endfunction
+
+function! s:SetStatusLine()
+    if &filetype == 'netrw'
+        setlocal statusline=%!StatusLine(1)
+    else
+        setlocal statusline=%!StatusLine(0)
+    endif
+endfunction
+
+hi User1 ctermbg=10
+hi User2 ctermbg=10 ctermfg=7
+hi User3 ctermfg=10
+
+augroup statusline
+    autocmd!
+    autocmd BufAdd,BufEnter * call s:SetStatusLine()
+augroup END

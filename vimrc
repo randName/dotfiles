@@ -12,6 +12,10 @@ set directory=~/.local/vim,/var/tmp,/tmp
 set ttyfast
 set lazyredraw
 
+set ttimeout
+set notimeout
+set timeoutlen=500
+
 set mouse=a
 set ttymouse=sgr
 " }}}
@@ -78,10 +82,35 @@ set foldlevelstart=10
 set splitbelow
 set splitright
 
+function! TmuxResize(direction)
+    let l:direction = ['h', 'j', 'k', 'l']
+
+    let l:amount = 5
+    let l:resize = 'resize '
+    if a:direction == 0 || a:direction == 3
+        let l:amount = 10
+        let l:resize = 'vertical ' . l:resize
+    endif
+
+    let l:cw = winnr()
+    exec 'wincmd ' . l:direction[a:direction]
+    if winnr() == l:cw
+        exec l:resize . '-' . l:amount
+    else
+        wincmd p
+        exec l:resize . '+' . l:amount
+    endif
+endfunction
+
 nnoremap a<left>  <C-w>h
 nnoremap a<down>  <C-w>j
 nnoremap a<up>    <C-w>k
 nnoremap a<right> <C-w>l
+
+nnoremap <silent> ar<left>  :call TmuxResize(0)<CR>
+nnoremap <silent> ar<down>  :call TmuxResize(1)<CR>
+nnoremap <silent> ar<up>    :call TmuxResize(2)<CR>
+nnoremap <silent> ar<right> :call TmuxResize(3)<CR>
 " }}}
 " Mappings {{{
 nnoremap j gj
@@ -93,17 +122,8 @@ let mapleader=","
 nnoremap <leader><space> :noh<CR>
 nnoremap <leader>p :set invpaste paste?<CR>
 " }}}
-" netrw {{{
-let g:netrw_banner=0
+" plugins {{{
 let g:netrw_liststyle=3
-let g:netrw_dirhistmax=0
-
-let g:netrw_alto=1
-let g:netrw_altv=1
-let g:netrw_winsize=20
-let g:netrw_browse_split=2
-
-let g:netrw_list_hide=netrw_gitignore#Hide() . '^\..*'
 " }}}
 " modeline {{{
 set modeline

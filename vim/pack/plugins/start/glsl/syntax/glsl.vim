@@ -1,6 +1,6 @@
 " Language: OpenGL ES Shading Language 1.00
 
-if exists("b:current_syntax") && b:current_syntax == "glsl"
+if exists("b:current_syntax")
   finish
 endif
 
@@ -117,6 +117,4 @@ hi def link glslBuiltinFunction Function
 hi def link glslBuiltinVariable Identifier
 hi def link glslSwizzle         Identifier
 
-if !exists("b:current_syntax")
-  let b:current_syntax = "glsl"
-endif
+let b:current_syntax = "glsl"
