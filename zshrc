@@ -3,19 +3,12 @@ export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME=""
 
-# untracked files will not make folder dirty, improves performance
-DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# custom folder (default: $ZSH/custom)
+# Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=$HOME/.dotfiles/zsh
 
-# load plugins
-plugins=(git gitfast tmux)
+# Which plugins would you like to load?
+plugins=(git gitfast tmux pure zsh-syntax-highlighting)
 
-# load functions
-fpath=("$ZSH_CUSTOM/functions" $fpath)
-
-# init oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 # https://github.com/sindresorhus/pure
@@ -27,7 +20,6 @@ prompt pure
 
 # User configuration
 export LANG='en_SG.utf8'
-export LC_ALL='en_SG.utf8'
 
 export TZ='Asia/Singapore'
 
@@ -44,9 +36,7 @@ setopt AUTO_CD
 # stuff that needs to be near the end
 
 if [ -d $HOME/.pyenv ]; then
-    export PATH=$HOME/.pyenv/bin:$PATH
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
+  export PATH=$HOME/.pyenv/bin:$PATH
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
 fi
-
-source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

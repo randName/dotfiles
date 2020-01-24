@@ -129,10 +129,17 @@ nnoremap <C-c> :exec "!printf ".shellescape(system('osc52', @0))<CR><CR>
 let mapleader=","
 
 nnoremap <leader>p :set invpaste paste?<CR>
+nmap <silent> <leader>i <Plug>IndentGuidesToggle
 " }}}
 " plugins {{{
 let g:netrw_liststyle=3
 let g:vue_pre_processors=[]
+
+hi IndentGuidesEven ctermbg=0
+
+let g:indent_guides_guide_size=1
+let g:indent_guides_auto_colors=0
+let g:indent_guides_enable_on_vim_startup=1
 " }}}
 " modeline {{{
 set modeline
