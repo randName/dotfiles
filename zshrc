@@ -31,6 +31,8 @@ bindkey '^S' history-incremental-search-forward
 bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
 
+bindkey -r '^L'
+
 setopt AUTO_CD
 
 # stuff that needs to be near the end

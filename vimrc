@@ -36,10 +36,31 @@ set smarttab
 set expandtab
 set autoindent
 
+set showbreak=↪
 set backspace=indent,eol,start
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+,eol:$
+set listchars=tab:→\ ,trail:·,extends:>,precedes:<,nbsp:+,eol:¶
+" }}}
+" Syntax & Colours {{{
+filetype plugin indent on
+syntax enable
+
+set showmatch
+set matchtime=2
+
+set foldenable
+set foldcolumn=1
+set foldmethod=indent
+set foldlevelstart=10
+
+set t_Co=256
+set background=dark
+colorscheme solarized
 " }}}
 " UI {{{
+set hidden
+set splitbelow
+set splitright
+
 set wildmenu
 set cursorline
 
@@ -55,18 +76,7 @@ set noshowmode
 set display+=lastline
 
 set laststatus=2
-set statusline=\ %F%=Line:\ %4l/%4L\ \ Col:\ %3c
-" }}}
-" Syntax & Colours {{{
-syntax enable
-filetype plugin indent on
-
-set showmatch
-set matchtime=2
-
-set t_Co=256
-set background=dark
-colorscheme solarized
+set statusline=\ %F%m%r%h%w%=(%{&ff}/%Y)\ L\ %l/%L,\ C\ %3c\ %3p%%
 " }}}
 " Search {{{
 set hlsearch
@@ -74,72 +84,45 @@ set incsearch
 set smartcase
 set ignorecase
 " }}}
-" Folding {{{
+" Mappings {{{
+let mapleader=','
+
+" fold
 nnoremap <space> za
 
-set foldenable
-set foldcolumn=1
-set foldmethod=indent
-set foldlevelstart=10
-" }}}
-" Splits {{{
-set splitbelow
-set splitright
+" split navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-function! TmuxResize(direction)
-  let l:direction = ['h', 'j', 'k', 'l']
+" display search results in middle
+nnoremap n nzz
+nnoremap N Nzz
 
-  let l:amount = 5
-  let l:resize = 'resize '
-  if a:direction == 0 || a:direction == 3
-    let l:amount = 10
-    let l:resize = 'vertical ' . l:resize
-  endif
-
-  let l:cw = winnr()
-  exec 'wincmd ' . l:direction[a:direction]
-  if winnr() == l:cw
-    exec l:resize . '-' . l:amount
-  else
-    wincmd p
-    exec l:resize . '+' . l:amount
-  endif
-endfunction
-
-nnoremap a<left>  <C-w>h
-nnoremap a<down>  <C-w>j
-nnoremap a<up>    <C-w>k
-nnoremap a<right> <C-w>l
-
-nnoremap <silent> ar<left>  :call TmuxResize(0)<CR>
-nnoremap <silent> ar<down>  :call TmuxResize(1)<CR>
-nnoremap <silent> ar<up>    :call TmuxResize(2)<CR>
-nnoremap <silent> ar<right> :call TmuxResize(3)<CR>
-" }}}
-" Mappings {{{
+" traverse display lines by default
 nnoremap j gj
 nnoremap k gk
 
-nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+" unhighlight and show diff
+nnoremap <silent> <C-l> :nohlsearch<Bar>diffupdate<CR><C-l>
 
 " send yanked stuff to clipboard with OSC52
 nnoremap <C-c> :exec "!printf ".shellescape(system('osc52', @0))<CR><CR>
-" }}}
-" Leader Shortcuts {{{
-let mapleader=","
 
+" toggles
+nnoremap <leader>w :set invlist list?<CR>
 nnoremap <leader>p :set invpaste paste?<CR>
-nmap <silent> <leader>i <Plug>IndentGuidesToggle
-" }}}
-" plugins {{{
-let g:netrw_liststyle=3
-let g:vue_pre_processors=[]
 
-hi IndentGuidesEven ctermbg=0
+" remove whitespace
+nnoremap <leader>t :%s/\s\+$//<CR>
+nnoremap <leader>d :%s/<C-v><C-m>//<CR>
 
-let g:indent_guides_guide_size=1
-let g:indent_guides_auto_colors=0
-let g:indent_guides_enable_on_vim_startup=1
+" prevent complaints when quitting
+cnoreabbrev Q! q!
+cnoreabbrev Q q
+cnoreabbrev W w
+cnoreabbrev X x
 " }}}
 " modeline {{{
 set modeline
