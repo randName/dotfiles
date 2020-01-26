@@ -7,7 +7,11 @@ if !exists("g:tmux_navigator_disable_when_zoomed")
 endif
 
 if !exists("g:tmux_navigator_resize_amount")
-  let g:resize_amount = 5
+  let g:tmux_navigator_resize_amount = 1
+endif
+
+if !exists("g:tmux_navigator_auto_resize")
+  let g:tmux_navigator_auto_resize = 1
 endif
 
 let s:args = 'select-pane -t ' . shellescape($TMUX_PANE) . ' -'
@@ -32,37 +36,67 @@ function! s:IsZoomed()
 endfunction
 
 function! s:TmuxSwitch(direction)
+  let l:ori_ft = &filetype
   let l:edge = s:PokeEdge(a:direction, 0)
   if g:tmux_navigator_disable_when_zoomed && s:IsZoomed()
     return
   elseif l:edge
     silent! call s:TmuxCommand(s:args . tr(a:direction, 'hjkl', 'LDUR'))
+  elseif g:tmux_navigator_auto_resize
+    if &filetype == 'netrw' || l:ori_ft == 'netrw'
+      return
+    endif
+    let l:vmax = max([winheight(0), float2nr(&lines * 0.66), 25])
+    let l:hmax = max([winwidth(0), float2nr(&columns * 0.66), 90])
+    execute 'resize ' . min([l:vmax, 60])
+    execute 'vertical resize ' . min([l:hmax, 140])
   endif
 endfunction
 
 function! s:TmuxResize(direction, amount)
+  if winnr('$') == 1
+    return
+  endif
   let l:resize = 'resize '
   if a:direction == 'h' || a:direction == 'l'
     let l:resize = 'vertical ' . l:resize
   endif
 
-  if s:PokeEdge(a:direction, 1)
-    execute l:resize . '-' . a:amount
+  let l:amount = a:amount ? a:amount : g:tmux_navigator_resize_amount
+
+  let l:fwd = s:PokeEdge(a:direction, 1)
+  let l:rev = s:PokeEdge(tr(a:direction, 'hjkl', 'lkjh'), 1)
+
+  if l:fwd && l:rev
+    return
+  elseif l:fwd
+    execute l:resize . '-' . l:amount
   else
-    let l:rev = tr(a:direction, 'hk', 'lj')
-    let l:plus = (a:direction == l:rev || s:PokeEdge(l:rev, 1))
-    execute l:resize . (l:plus ? '+' : '-') . a:amount
+    let l:plus = (a:direction =~ '[hk]' || l:rev)
+    execute l:resize . (l:plus ? '+' : '-') . l:amount
   endif
 endfunction
 
-nnoremap <silent> <C-h> :call <SID>TmuxSwitch('h')<CR>
-nnoremap <silent> <C-j> :call <SID>TmuxSwitch('j')<CR>
-nnoremap <silent> <C-k> :call <SID>TmuxSwitch('k')<CR>
-nnoremap <silent> <C-l> :call <SID>TmuxSwitch('l')<CR>
+nnoremap <silent> <Plug>(TmuxSwitchH) :call <SID>TmuxSwitch('h')<CR>
+nnoremap <silent> <Plug>(TmuxSwitchJ) :call <SID>TmuxSwitch('j')<CR>
+nnoremap <silent> <Plug>(TmuxSwitchK) :call <SID>TmuxSwitch('k')<CR>
+nnoremap <silent> <Plug>(TmuxSwitchL) :call <SID>TmuxSwitch('l')<CR>
 
-nnoremap <silent> <C-e>h :call <SID>TmuxResize('h', 1)<CR>
-nnoremap <silent> <C-e>j :call <SID>TmuxResize('j', 1)<CR>
-nnoremap <silent> <C-e>k :call <SID>TmuxResize('k', 1)<CR>
-nnoremap <silent> <C-e>l :call <SID>TmuxResize('l', 1)<CR>
+nnoremap <silent> <Plug>(TmuxResizeH) :call <SID>TmuxResize('h', 0)<CR>
+nnoremap <silent> <Plug>(TmuxResizeJ) :call <SID>TmuxResize('j', 0)<CR>
+nnoremap <silent> <Plug>(TmuxResizeK) :call <SID>TmuxResize('k', 0)<CR>
+nnoremap <silent> <Plug>(TmuxResizeL) :call <SID>TmuxResize('l', 0)<CR>
+
+if !get(g:, 'tmux_navigator_no_mappings', 0)
+  nmap <C-h> <Plug>(TmuxSwitchH)
+  nmap <C-j> <Plug>(TmuxSwitchJ)
+  nmap <C-k> <Plug>(TmuxSwitchK)
+  nmap <C-l> <Plug>(TmuxSwitchL)
+
+  nmap h <Plug>(TmuxResizeH)
+  nmap j <Plug>(TmuxResizeJ)
+  nmap k <Plug>(TmuxResizeK)
+  nmap l <Plug>(TmuxResizeL)
+endif
 
 let g:tmux_navigator_loaded = 1

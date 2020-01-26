@@ -5,6 +5,8 @@ set runtimepath+=~/.dotfiles/vim
 set packpath+=~/.dotfiles/vim
 
 set path+=**
+
+set hidden
 set autoread
 set nobackup
 set directory=~/.local/vim,/var/tmp,/tmp
@@ -46,6 +48,7 @@ syntax enable
 
 set showmatch
 set matchtime=2
+set matchpairs+=<:>
 
 set foldenable
 set foldcolumn=1
@@ -57,11 +60,12 @@ set background=dark
 colorscheme solarized
 " }}}
 " UI {{{
-set hidden
 set splitbelow
 set splitright
 
 set wildmenu
+set completeopt=menuone,longest
+
 set cursorline
 
 set scrolloff=1
@@ -104,8 +108,8 @@ nnoremap N Nzz
 nnoremap j gj
 nnoremap k gk
 
-" unhighlight and show diff
-nnoremap <silent> <C-l> :nohlsearch<Bar>diffupdate<CR><C-l>
+" clear search highlight
+nnoremap <leader>l :nohlsearch<CR>
 
 " send yanked stuff to clipboard with OSC52
 nnoremap <C-c> :exec "!printf ".shellescape(system('osc52', @0))<CR><CR>
@@ -119,10 +123,20 @@ nnoremap <leader>t :%s/\s\+$//<CR>
 nnoremap <leader>d :%s/<C-v><C-m>//<CR>
 
 " prevent complaints when quitting
+nnoremap ZZ <nop>
+nnoremap ZQ <nop>
+
 cnoreabbrev Q! q!
 cnoreabbrev Q q
 cnoreabbrev W w
 cnoreabbrev X x
+" }}}
+" Misc {{{
+" disable default plugins
+let g:loaded_logiPat = 1
+let g:loaded_rrhelper = 1
+let g:loaded_vimballPlugin = 1
+let g:loaded_getscriptPlugin = 1
 " }}}
 " modeline {{{
 set modeline

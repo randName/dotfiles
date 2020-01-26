@@ -7,9 +7,6 @@
 [submodule "vim/pack/plugins/start/vim-colors-solarized"]
 	path = vim/pack/plugins/start/vim-colors-solarized
 	url = https://github.com/altercation/vim-colors-solarized.git
-[submodule "vim/pack/plugins/start/vim-indent-guides"]
-	path = vim/pack/plugins/start/vim-indent-guides
-	url = https://github.com/nathanaelkane/vim-indent-guides.git
 [submodule "vim/pack/plugins/start/vim-vue"]
 	path = vim/pack/plugins/start/vim-vue
 	url = https://github.com/posva/vim-vue.git

@@ -1,3 +1,7 @@
+if exists('g:loaded_statusline')
+  finish
+endif
+
 function! s:Join(segments, direction)
   return join(a:segments, (a:direction ? '  ' : '  '))
 endfunction
@@ -18,16 +22,14 @@ function! s:FileSize()
   let l:bytes = getfsize(expand('%:p'))
   if l:bytes <= 0
     return '0'
-  endif
-
-  if l:bytes >= 1024
+  elseif l:bytes >= 1024
     let l:kb = l:bytes / 1024
     if l:kb >= 1000
       return (l:kb / 1000) . 'MB'
     endif
+    return l:kb . 'KB'
   endif
-
-  return exists('l:kb') ? (l:kb . 'KB') : (l:bytes. 'B')
+  return l:bytes . 'B'
 endfunction
 
 let s:modetext={
@@ -138,3 +140,5 @@ augroup statusline
   autocmd!
   autocmd BufAdd,BufEnter * call s:SetStatusLine()
 augroup END
+
+let g:loaded_statusline = 1
