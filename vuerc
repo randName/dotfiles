@@ -1,0 +1,19 @@
+{
+  "presets": {
+    "router+vuex": {
+      "useConfigFiles": true,
+      "plugins": {
+        "@vue/cli-plugin-eslint": {
+          "config": "standard",
+          "lintOn": [
+            "save"
+          ]
+        }
+      },
+      "router": true,
+      "routerHistoryMode": false,
+      "vuex": true
+    }
+  },
+  "useTaobaoRegistry": false
+}
