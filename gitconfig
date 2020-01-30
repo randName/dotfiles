@@ -3,3 +3,5 @@
     email = kwokshungit@gmail.com
 [github]
     user = randname
+[alias]
+  undo = reset --soft HEAD~1

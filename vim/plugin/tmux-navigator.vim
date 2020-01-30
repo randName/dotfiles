@@ -46,10 +46,11 @@ function! s:TmuxSwitch(direction)
     if &filetype == 'netrw' || l:ori_ft == 'netrw'
       return
     endif
-    let l:vmax = max([winheight(0), float2nr(&lines * 0.66), 25])
-    let l:hmax = max([winwidth(0), float2nr(&columns * 0.66), 90])
-    execute 'resize ' . min([l:vmax, 60])
-    execute 'vertical resize ' . min([l:hmax, 140])
+    if a:direction =~ '[hl]'
+      execute 'vertical resize ' . min([max([float2nr(&columns * 0.6), 80]), 140])
+    else
+      execute 'resize ' . min([max([float2nr(&lines * 0.6), 20]), 50])
+    endif
   endif
 endfunction
 
@@ -58,7 +59,7 @@ function! s:TmuxResize(direction, amount)
     return
   endif
   let l:resize = 'resize '
-  if a:direction == 'h' || a:direction == 'l'
+  if a:direction =~ '[hl]'
     let l:resize = 'vertical ' . l:resize
   endif
 
