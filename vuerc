@@ -15,5 +15,8 @@
       "vuex": true
     }
   },
-  "useTaobaoRegistry": false
+  "useTaobaoRegistry": false,
+  "latestVersion": "4.2.3",
+  "lastChecked": 1581841370183,
+  "packageManager": "npm"
 }
