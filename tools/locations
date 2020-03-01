@@ -4,4 +4,6 @@ vimrc
 tmux.conf
 
 gitconfig
+gitignore
+nvmrc
 vuerc
