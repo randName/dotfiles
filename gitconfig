@@ -5,3 +5,5 @@
     user = randname
 [alias]
   undo = reset --soft HEAD~1
+[core]
+  excludesfile = ~/.gitignore
