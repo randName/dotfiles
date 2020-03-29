@@ -33,6 +33,7 @@ function! s:FileSize()
 endfunction
 
 let s:modetext={
+    \ 't' : 'Term',
     \ '!' : 'Shell',
     \ 'c' : 'Command',
     \ 'n' : 'Normal',
@@ -46,6 +47,7 @@ let s:modetext={
 \}
 
 let s:modecolor={
+    \ 't' : 1,
     \ '!' : 1,
     \ 'c' : 1,
     \ 'n' : 4,
@@ -65,11 +67,15 @@ function! ModeColor()
   exec 'hi StatusLine ctermfg=' . l:c
   exec 'hi User1 ctermfg=' . l:c
 
-  let l:m = get(s:modetext, l:m, '???')
+  let l:m = get(s:modetext, l:m, mode())
   return s:Wide() ? toupper(l:m) : l:m[0]
 endfunction
 
 function! DisplayPath()
+  if &buftype == 'terminal'
+    return expand('%')[1:]
+  endif
+
   let l:path = substitute(expand('%:p:h'), $HOME, '~', '')
   if s:Wide() < 2
     return l:path
@@ -88,6 +94,10 @@ function! FileInfo()
   let l:wide = s:Wide()
   if &filetype == 'netrw'
     return l:wide ? 'netrw' : '☰'
+  endif
+
+  if &buftype == 'terminal'
+    return l:wide ? 'terminal' : '☰'
   endif
 
   let l:filesize = s:FileSize()
@@ -132,6 +142,9 @@ function! s:SetStatusLine()
   let b:statusline=1
 endfunction
 
+hi! default link StatusLineTerm StatusLine
+hi! default link StatusLineTermNC StatusLineNC
+
 hi User1 ctermbg=10
 hi User2 ctermbg=10 ctermfg=7
 hi User3 ctermfg=10
@@ -139,6 +152,7 @@ hi User3 ctermfg=10
 augroup statusline
   autocmd!
   autocmd BufAdd,BufEnter * call s:SetStatusLine()
+  autocmd TerminalOpen * if &buftype == 'terminal' | setlocal statusline=%!StatusLine(0) | endif
 augroup END
 
 let g:loaded_statusline = 1
