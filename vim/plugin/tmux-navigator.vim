@@ -45,6 +45,8 @@ function! s:TmuxSwitch(direction)
   elseif g:tmux_navigator_auto_resize
     if &filetype == 'netrw' || l:ori_ft == 'netrw'
       return
+    elseif &buftype == 'terminal'
+      return
     endif
     if a:direction =~ '[hl]'
       execute 'vertical resize ' . min([max([float2nr(&columns * 0.6), 80]), 140])
