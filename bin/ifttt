@@ -11,9 +11,7 @@ _json () {
   local a=$1
   local b=$2
   shift 2
-  cat <<-EOF
-    {"value1":"$a","value2":"$b","value3":"$@"}
-  EOF
+  echo '{"value1":"'$a'","value2":"'$b'","value3":"'$@'"}'
 }
 
 if [ $# -eq 3 ]; then
@@ -22,4 +20,6 @@ else
   data="$( _json "$(hostname)" "$(pwd)" "$@" )"
 fi
 
-curl -s -H 'Content-Type: application/json' -o /dev/null -d "$data" "$API"
+result="$(curl -s -H 'Content-Type: application/json' -d $data $API)"
+[ "$result" = 'Bad Request' ] && exit 1
+exit 0
