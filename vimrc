@@ -1,5 +1,5 @@
 " System {{{
-set shell=/usr/bin/zsh
+set shell=$SHELL
 
 set runtimepath+=~/.dotfiles/vim
 set packpath+=~/.dotfiles/vim

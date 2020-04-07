@@ -1,2 +1,7 @@
 tags
+.tags
+
 surge.sh
+
+._*
+.DS_Store
