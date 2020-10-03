@@ -13,3 +13,9 @@
 [submodule "vim/pack/plugins/opt/vim-gitgutter"]
 	path = vim/pack/plugins/opt/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
+[submodule "vim/pack/plugins/opt/yats.vim"]
+	path = vim/pack/plugins/opt/yats.vim
+	url = https://github.com/HerringtonDarkholme/yats.vim
+[submodule "vim/pack/plugins/opt/vim-jsx-pretty"]
+	path = vim/pack/plugins/opt/vim-jsx-pretty
+	url = https://github.com/MaxMEllon/vim-jsx-pretty
