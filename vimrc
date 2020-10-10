@@ -64,6 +64,7 @@ set splitbelow
 set splitright
 
 set wildmenu
+set complete=.,b,u,]
 set completeopt=menuone,longest
 
 set cursorline
