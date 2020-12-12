@@ -20,5 +20,5 @@
 	path = vim/pack/plugins/opt/vim-jsx-pretty
 	url = https://github.com/MaxMEllon/vim-jsx-pretty
 [submodule "vim/pack/plugins/start/coc.nvim"]
-	path = vim/pack/plugins/start/coc.nvim
+	path = vim/pack/plugins/opt/coc.nvim
 	url = https://github.com/neoclide/coc.nvim
