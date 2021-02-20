@@ -1,9 +1,11 @@
 [user]
-    name = Shun Git
-    email = kwokshungit@gmail.com
+  name = Shun Git
+  email = kwokshungit@gmail.com
 [github]
-    user = randname
+  user = randname
 [alias]
   undo = reset --soft HEAD~1
 [core]
   excludesfile = ~/.gitignore
+[fetch]
+  prune = true
