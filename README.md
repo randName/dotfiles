@@ -1,7 +1,7 @@
 # .dotfiles
-Configuration files for `zsh`, `tmux` and `vim`
+Configuration files for `zsh`, `tmux`, `vim` and many other things
 
-Very loosely based on [The Text Triumvirate](https://www.drbunsen.org/the-text-triumvirate/)
+very loosely based on [The Text Triumvirate](https://web.archive.org/web/20200414221857/https://www.drbunsen.org/the-text-triumvirate/)
 
 ## Installing
 1) Install `zsh`, `tmux` and `vim`
@@ -22,4 +22,4 @@ cd .dotfiles && tools/install.sh
 ### Terminal Settings (Fonts, Colours)
 The `vim` statusbar uses [Powerline fonts](https://github.com/powerline/fonts)
 
-To install [Solarized](https://github.com/altercation/solarized) Dark on the Windows 10 Console, run `tools/solarized-dark.reg`
+refer to [the wiki](https://github.com/randName/dotfiles/wiki) for more setup instructions
