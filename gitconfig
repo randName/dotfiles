@@ -1,6 +1,7 @@
 [user]
   name = Shun Git
   email = kwokshungit@gmail.com
+  signingkey = 2A8E70EDA1631F2B
 [github]
   user = randname
 [alias]
