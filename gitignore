@@ -6,3 +6,6 @@ surge.sh
 
 ._*
 .DS_Store
+
+# Local Netlify folder
+.netlify
