@@ -34,6 +34,6 @@ q	quit
 #stop
 
 #env
-LESS = -inR
+LESS = -inRx3
 LESSCHARSET = utf-8
 LESSHISTFILE = -
