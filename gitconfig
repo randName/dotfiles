@@ -1,14 +1,14 @@
 [user]
-  name = Shun Git
-  email = kwokshungit@gmail.com
-  signingkey = 2A8E70EDA1631F2B
+	name = Shun Git
+	email = kwokshungit@gmail.com
+	signingkey = 2A8E70EDA1631F2B
 [github]
-  user = randname
+	user = randname
 [alias]
-  undo = reset --soft HEAD~1
+	undo = reset --soft HEAD~1
 [core]
-  excludesfile = ~/.gitignore
+	excludesfile = ~/.gitignore
 [fetch]
-  prune = true
+	prune = true
 [pull]
 	rebase = true
