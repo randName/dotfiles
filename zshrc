@@ -15,12 +15,7 @@ source $ZSH/oh-my-zsh.sh
 autoload -U promptinit; promptinit
 prompt pure
 
-# machine-local configuration
-[ -f $HOME/.zshlocal ] && source $HOME/.zshlocal
-
 # User configuration
-export LANG='en_SG.utf8'
-
 export TZ='Asia/Singapore'
 
 bindkey -v
@@ -35,10 +30,5 @@ bindkey -r '^L'
 
 setopt AUTO_CD
 
-# stuff that needs to be near the end
-
-if [ -d $HOME/.pyenv ]; then
-	export PATH=$HOME/.pyenv/bin:$PATH
-	eval "$(pyenv init -)"
-	eval "$(pyenv virtualenv-init -)"
-fi
+# machine-local configuration
+[ -f $HOME/.zshlocal ] && source $HOME/.zshlocal

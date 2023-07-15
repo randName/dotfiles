@@ -1,6 +1,7 @@
 zshenv
 zshrc
 vimrc
+lesskey
 tmux.conf
 
 gitconfig

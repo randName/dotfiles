@@ -1,6 +1,7 @@
 tags
 .tags
 .nvmrc
+node_modules/
 
 surge.sh
 
