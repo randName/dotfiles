@@ -10,8 +10,8 @@ very loosely based on [The Text Triumvirate](https://web.archive.org/web/2020041
 sudo apt purge vim-tiny*
 sudo apt install zsh tmux vim
 
-# install oh-my-zsh (https://github.com/robbyrussell/oh-my-zsh/)
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# install Oh My Zsh (https://github.com/ohmyzsh/ohmyzsh/)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # install .dotfiles
 git clone --depth 1 --recursive https://github.com/randName/dotfiles .dotfiles
