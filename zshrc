@@ -15,9 +15,6 @@ source $ZSH/oh-my-zsh.sh
 autoload -U promptinit; promptinit
 prompt pure
 
-# User configuration
-export TZ='Asia/Singapore'
-
 bindkey -v
 
 # vi style incremental search

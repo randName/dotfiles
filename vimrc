@@ -112,9 +112,6 @@ nnoremap k gk
 " clear search highlight
 nnoremap <leader>l :nohlsearch<CR>
 
-" send yanked stuff to clipboard with OSC52
-nnoremap <C-c> :exec "!printf ".shellescape(system('osc52', @0))<CR><CR>
-
 " toggles
 nnoremap <leader>w :set invlist list?<CR>
 nnoremap <leader>p :set invpaste paste?<CR>
