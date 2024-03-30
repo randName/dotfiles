@@ -17,5 +17,5 @@ ddir="$(dirname $0)"
 for f in $files; do
 	fn="$ddir/$f"
 	[ -z "$fn" ] && continue
-	ln -vs --backup=existing $fn $HOME/.$fn
+	ln -vsb $fn $HOME/.$f
 done
